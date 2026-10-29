@@ -1,0 +1,75 @@
+{
+  "manifestVersion": 2,
+  "name": "quota-guard",
+  "publisher": "mr-xiongyq",
+  "displayName": "账号额度保护",
+  "version": "0.2.3",
+  "description": "按账号保留 OpenAI 额度，达到 5 小时或周额度上限时停止分配新请求",
+  "author": "Mr-xiongyq",
+  "license": "Apache-2.0",
+  "engines": { "codex-proxy-rs": ">=3.35.1, <4.0.0" },
+  "main": "bin/cpr-quota-guard",
+  "runtime": "trustedProcess",
+  "resources": {
+    "web/index.html": "text/html",
+    "web/assets/app.js": "application/javascript",
+    "web/assets/app.css": "text/css"
+  },
+  "contributes": {
+    "management": { "version": 2 },
+    "scheduler": { "version": 3 },
+    "command_line": { "version": 1 },
+    "maintenance": { "version": 1 }
+  },
+  "configurationSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "accounts": {
+        "type": "array",
+        "title": "受保护账号",
+        "description": "只保护这里列出的 OpenAI 账号；空列表不影响调度",
+        "default": [],
+        "maxItems": 1000,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["accountId"],
+          "properties": {
+            "accountId": {
+              "type": "string",
+              "title": "账号 ID",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^\\S(?:.*\\S)?$"
+            },
+            "fiveHourLimitPercent": {
+              "type": ["number", "null"],
+              "title": "5 小时使用率上限（%）",
+              "description": "达到上限暂停分配；null 关闭此窗口，0 表示始终触发",
+              "minimum": 0,
+              "maximum": 100,
+              "default": 95
+            },
+            "weeklyLimitPercent": {
+              "type": ["number", "null"],
+              "title": "每周使用率上限（%）",
+              "description": "达到上限暂停分配；null 关闭此窗口，0 表示始终触发",
+              "minimum": 0,
+              "maximum": 100,
+              "default": 95
+            }
+          }
+        }
+      },
+      "maxObservationAgeSeconds": {
+        "type": "integer",
+        "title": "额度观测有效期（秒）",
+        "description": "超过此时间的额度不能证明可以安全分配；需通过宿主刷新额度",
+        "minimum": 60,
+        "maximum": 86400,
+        "default": 300
+      }
+    }
+  }
+}

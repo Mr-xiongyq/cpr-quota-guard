@@ -1,0 +1,6 @@
+{
+  "accounts": [
+    { "accountId": "replace-with-openai-account-id", "fiveHourLimitPercent": 95, "weeklyLimitPercent": 99 }
+  ],
+  "maxObservationAgeSeconds": 300
+}

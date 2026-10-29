@@ -1,0 +1,24 @@
+[package]
+name = "cpr-quota-guard"
+version = "0.2.3"
+edition = "2024"
+rust-version = "1.99.1"
+license = "Apache-2.0"
+description = "Per-account quota reserve policy for Codex Proxy RS"
+
+[dependencies]
+gateway-plugin-sdk = { git = "https://github.com/zyycn/codex-proxy-rs", rev = "12771aca8719ed4b23b0362b23d8d81f228190ca", features = ["io"] }
+futures-util = "0.3.32"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.150"
+tokio = { version = "1.52.3", features = ["io-std", "macros", "rt-multi-thread"] }
+
+[dev-dependencies]
+tokio = { version = "1.52.3", features = ["io-util", "process", "time"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[profile.release]
+lto = "thin"
+strip = true

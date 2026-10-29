@@ -1,0 +1,15 @@
+@import '@codex-proxy/ui/styles.css';
+@import 'tailwindcss/theme.css' layer(theme);
+@import '@codex-proxy/ui/tailwind.css';
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@layer base {
+  body {
+    margin: 0;
+    background: transparent;
+  }
+
+  #app {
+    min-height: inherit;
+  }
+}
